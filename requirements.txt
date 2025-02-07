@@ -4,3 +4,5 @@ langchain-community # used for text splitters, vector stores, and document loade
 langchain openai # to use openai embedding
 chromadb # Vector storage
 pytest # to test the RAG performance
+flask # for REST API
+langchain_chroma # for vector database
