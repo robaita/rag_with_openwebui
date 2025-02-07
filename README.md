@@ -41,7 +41,7 @@ This repository contains a **Retrieval-Augmented Generation (RAG) system** that 
     - Configure OpenWebUI to use this RAG model as a backend.
     - Start querying your documents with natural language!
 
-## ⚙️ Settings & Configuration 
+## 🎯 Settings & Configuration 
 - You can use different embeddings to benchmark the results and choose the one that suits yiur dataset.
 - Tweak the chunk_size and chunk_overlap for better results
 - Use the LLM model that is giving better performance
