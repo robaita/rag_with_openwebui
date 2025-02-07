@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import os
+import os, re
 from langchain_chroma import Chroma 
 from langchain.prompts import ChatPromptTemplate
 from langchain_community.llms.ollama import Ollama  # Ensuring consistency in imports
@@ -54,24 +54,29 @@ def query_rag(query_text: str):
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _ in results])
     
     context = ''
-    for doc, score in results:
+    
+    for doc, _ in results:
         # print(f"Document: {doc.metadata.get('id', 'Unknown')}, Score: {score}")
         content = doc.page_content
-        source = doc.metadata.get("id", "Unknown")
-
-        item = source.replace("dataset", "")
+        sources = doc.metadata.get("id", "Unknown")
+        # print("Sources:",sources)
+        item = sources.replace("dataset", "")
         item = item.replace(".pdf", "")
-        item = item.replace("_", "")
+        item = item.replace("_", " ")
         item = item.replace("resume", "")
         item = item.replace("/", "")
         item = item.replace("\\", "")
+        item = re.sub(r'[^A-Za-z\s]', '', item)
 
-        context = context + f'Candidate info: {item} \n {content} \n\n'
+        context = context + f'Candidate name: {item} \n {content} \n\n'
 
-    # print(context)
+    
+    # print("Context:\n",context)
     # Format the prompt.
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
-    prompt = prompt_template.format(context=context_text, question=query_text)
+    # prompt = prompt_template.format(context=context_text, question=query_text)
+
+    prompt = prompt_template.format(context=context, question=query_text)
 
     # Invoke the model.
     model = Ollama(model="mistral")
