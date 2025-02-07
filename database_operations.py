@@ -13,8 +13,8 @@ from langchain_chroma import Chroma  # Updated import
 CHROMA_PATH = "chroma"
 DATA_PATH = "dataset"
 
-CHUNKSIZE = 800 # in characters
-CHUNKOVERLAP = 400 # in characters
+CHUNKSIZE = 500 # in characters
+CHUNKOVERLAP = 50 # in characters
 
 def get_embedding():
     return OllamaEmbeddings(model="nomic-embed-text")
