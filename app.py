@@ -12,14 +12,13 @@ CHROMA_PATH = "chroma"
 
 context = ''
 question = ''
-PROMPT_TEMPLATE = f"""You are an AI assistant specialized in analyzing resumes to extract relevant information. Given the following user     question and the following context, identify and provide the most relevant response based on the candidate's resume.
+PROMPT_TEMPLATE = f"""You are an AI assistant specialized in analyzing resumes to extract relevant information. Given the following user question and the following context, identify and provide the most relevant response.
         **Context** {context}
 
-        **User Query:** {question}
+        **User Question:** {question}
 
         **Instructions:**
-        - Extract precise information from the provided resume context.
-        - If multiple candidates match, list the most relevant ones.
+        - Extract precise information from the provided context.
         - Do not generate information that is not present in the retrieved context.
         - Structure the response clearly and concisely.
 
