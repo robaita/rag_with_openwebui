@@ -1,0 +1,6 @@
+pypdf # Pdef Reader
+langchain # To build and manage LLM applications
+langchain-community # used for text splitters, vector stores, and document loaders
+langchain openai # to use openai embedding
+chromadb # Vector storage
+pytest # to test the RAG performance
