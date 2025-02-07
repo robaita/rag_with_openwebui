@@ -12,18 +12,16 @@ CHROMA_PATH = "chroma"
 
 context = ''
 question = ''
-PROMPT_TEMPLATE = f"""You are an AI assistant specialized in analyzing resumes to extract relevant information. Given the following user question and the following context, identify and provide the most relevant response.
-        **Context** {context}
 
-        **User Question:** {question}
+PROMPT_TEMPLATE = """
+Answer the question based only on the following context:
 
-        **Instructions:**
-        - Extract precise information from the provided context.
-        - Do not generate information that is not present in the retrieved context.
-        - Structure the response clearly and concisely.
+{context}
 
-        **Response:**
-        """
+---
+
+Answer the question based on the above context: {question}
+"""
 
 app = Flask(__name__)
 
@@ -55,6 +53,22 @@ def query_rag(query_text: str):
     # Construct the context text.
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _ in results])
     
+    context = ''
+    for doc, score in results:
+        # print(f"Document: {doc.metadata.get('id', 'Unknown')}, Score: {score}")
+        content = doc.page_content
+        source = doc.metadata.get("id", "Unknown")
+
+        item = source.replace("dataset", "")
+        item = item.replace(".pdf", "")
+        item = item.replace("_", "")
+        item = item.replace("resume", "")
+        item = item.replace("/", "")
+        item = item.replace("\\", "")
+
+        context = context + f'Candidate info: {item} \n {content} \n\n'
+
+    # print(context)
     # Format the prompt.
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = prompt_template.format(context=context_text, question=query_text)
