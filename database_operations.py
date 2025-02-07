@@ -13,6 +13,9 @@ from langchain_chroma import Chroma  # Updated import
 CHROMA_PATH = "chroma"
 DATA_PATH = "dataset"
 
+CHUNKSIZE = 2000 # around 200 words
+CHUNKOVERLAP = 1000 # around 100 words
+
 def get_embedding():
     return OllamaEmbeddings(model="nomic-embed-text")
     # return OpenAIEmbeddings(openai_api_key=openai_api_key)
@@ -50,8 +53,8 @@ def load_documents():
 def split_documents(documents: list[Document]):
     """Splits documents into smaller chunks for better retrieval."""
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
-        chunk_overlap=80,
+        chunk_size=CHUNKSIZE,
+        chunk_overlap=CHUNKOVERLAP,
         length_function=len,
         is_separator_regex=False,
     )
